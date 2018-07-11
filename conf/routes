@@ -5,9 +5,12 @@
 
 # An example controller showing a sample home page
 GET     /                           controllers.HomeController.index
-# GET     /juros-compostos            controllers.HomeController.jurosCompostosS
-GET     /juros-compostos            controllers.HomeController.jurosCompostos(juros: Double ?= 0.65, aporte: Double ?= 500, interacoes : Int ?= 12)
-GET     /financiamento-sac          controllers.HomeController.todo
+
+# GET     /juros-compostos            controllers.HomeController.jurosCompostos(juros: Double ?= 0.65, aporte: Double ?= 500, interacoes : Int ?= 12)
+GET     /juros-compostos            controllers.JurosCompostosController.indexAction
+POST     /juros-compostos            controllers.JurosCompostosController.formAction
+
+GET     /financiamento-sac          controllers.HomeController.toDo
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)

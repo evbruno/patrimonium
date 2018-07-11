@@ -2,7 +2,6 @@ package controllers
 
 import javax.inject._
 import models.JurosCompostos
-import play.api._
 import play.api.mvc._
 
 /**
@@ -10,7 +9,8 @@ import play.api.mvc._
  * application's home page.
  */
 @Singleton
-class HomeController @Inject()(cc: ControllerComponents) extends AbstractController(cc) {
+class HomeController @Inject()(cc: ControllerComponents)
+  extends AbstractController(cc) {
 
   /**
    * Create an Action to render an HTML page.
@@ -23,12 +23,6 @@ class HomeController @Inject()(cc: ControllerComponents) extends AbstractControl
     Ok(views.html.index())
   }
 
-  def jurosCompostos(juros: Double, aporte: Double, interacoes: Int) = Action {
-    val jc = JurosCompostos(juros, aporte, interacoes)
-    val parcelas = JurosCompostos.parcelas(jc)
-    val totalJuros = parcelas.foldRight(0d)(_.juros + _)
-    Ok(views.html.juros_comp(jc, parcelas, totalJuros))
-  }
+  def toDo = TODO
 
-  def todo = TODO
 }

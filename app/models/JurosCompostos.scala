@@ -1,7 +1,7 @@
 package models
 
-case class JurosCompostos(juros: Double,
-                          aporte: Double,
+case class JurosCompostos(juros: BigDecimal,
+                          aporte: BigDecimal,
                           interacoes: Int) {
 
   assert(juros > 0)
@@ -13,8 +13,8 @@ case class JurosCompostos(juros: Double,
 }
 
 case class ParcelaComJuros(parcela: Int,
-                           valor: Double,
-                           juros: Double)
+                           valor: BigDecimal,
+                           juros: BigDecimal)
 
 
 object JurosCompostos {

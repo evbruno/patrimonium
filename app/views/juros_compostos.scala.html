@@ -1,0 +1,58 @@
+@(parcelas: List[models.ParcelaComJuros], totalJuros: BigDecimal, jurosForm: Form[JurosCompostos], postUrl: Call)(implicit request: MessagesRequestHeader)
+
+@import helper._
+
+@main("Patrimonium: Juros Compostos") {
+
+    <h1>Juros Compostos</h1>
+
+    @* Flash shows updates to a page *@
+    @request.flash.data.map{ case (name, value) =>
+        <div>@name: @value</div>
+    }
+
+    @if(jurosForm.hasGlobalErrors) {
+        @jurosForm.globalErrors.map { error: FormError =>
+        <div>
+            @error.key: @error.message
+        </div>
+        }
+    }
+
+    @helper.form(action = postUrl) {
+        @helper.CSRF.formField
+        @helper.inputText(jurosForm("juros"))
+        @helper.inputText(jurosForm("aporte"))
+        @helper.inputText(jurosForm("interacoes"))
+
+        <button>Calculate</button>
+    }
+
+    <hr/>
+
+    <table border="1">
+        <thead>
+        <tr>
+            <th>Interação</th>
+            <th>Aporte acum.</th>
+            <th>Juros Mensal</th>
+        </tr>
+        </thead>
+        <tbody>
+        @for(parcela <- parcelas) {
+        <tr>
+            <td>@parcela.parcela</td>
+            <td>@(f"${parcela.valor}%.2f")</td>
+            <td>@(f"${parcela.juros}%.2f")</td>
+        </tr>
+        }
+        </tbody>
+        <tfoot>
+        <tr>
+            <th colspan="2">Total juros</th>
+            <th>@(f"$totalJuros%.2f")</th>
+        </tr>
+        </tfoot>
+    </table>
+
+}

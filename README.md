@@ -1,0 +1,3 @@
+# Patrimonium
+
+`sbt run`
