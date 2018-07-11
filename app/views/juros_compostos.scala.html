@@ -1,10 +1,11 @@
 @(parcelas: List[models.ParcelaComJuros], totalJuros: BigDecimal, jurosForm: Form[JurosCompostos], postUrl: Call)(implicit request: MessagesRequestHeader)
 
+@implicitFieldConstructor = @{ b4.horizontal.fieldConstructor("col-md-6", "col-md-6") }
 @import helper._
 
-@main("Patrimonium: Juros Compostos") {
+@main("Juros Compostos", tab = "jc") {
 
-    <h1>Juros Compostos</h1>
+    <h1 class="mt-5">Juros Compostos</h1>
 
     @* Flash shows updates to a page *@
     @request.flash.data.map{ case (name, value) =>
@@ -19,40 +20,53 @@
         }
     }
 
-    @helper.form(action = postUrl) {
-        @helper.CSRF.formField
-        @helper.inputText(jurosForm("juros"))
-        @helper.inputText(jurosForm("aporte"))
-        @helper.inputText(jurosForm("interacoes"))
+    <div class="row">
+        <div class="col-sm">
 
-        <button>Calculate</button>
-    }
+            @b4.form(action = postUrl) {
+                @helper.CSRF.formField
 
-    <hr/>
+                @b4.text( jurosForm("juros"), '_label -> "Juros por interação (%)", 'placeholder -> "0.0" )
+                @b4.text( jurosForm("aporte"), '_label -> "Aporte (R$)", 'placeholder -> "0.0" )
+                @b4.number( jurosForm("interacoes"), '_label -> "Interações", 'placeholder -> "1" )
 
-    <table border="1">
-        <thead>
-        <tr>
-            <th>Interação</th>
-            <th>Aporte acum.</th>
-            <th>Juros Mensal</th>
-        </tr>
-        </thead>
-        <tbody>
-        @for(parcela <- parcelas) {
-        <tr>
-            <td>@parcela.parcela</td>
-            <td>@(f"${parcela.valor}%.2f")</td>
-            <td>@(f"${parcela.juros}%.2f")</td>
-        </tr>
-        }
-        </tbody>
-        <tfoot>
-        <tr>
-            <th colspan="2">Total juros</th>
-            <th>@(f"$totalJuros%.2f")</th>
-        </tr>
-        </tfoot>
-    </table>
+                <div class="col-md-6 offset-6">
+                    <button type="submit" class="btn btn-primary btn-sm">
+                        <i class="fa fa-calculator" title="Calcular"></i>
+                        Calcular
+                    </button>
+                </div>
+            }
+
+        </div>
+
+        <div class="col-sm">
+
+        <table class="table">
+            <thead class="thead-dark">
+            <tr>
+                <th>Interação</th>
+                <th>Aporte acum.</th>
+                <th>Juros Mensal</th>
+            </tr>
+            </thead>
+            <tbody>
+            @for(parcela <- parcelas) {
+            <tr>
+                <td>@parcela.parcela</td>
+                <td>@(f"${parcela.valor}%.2f")</td>
+                <td>@(f"${parcela.juros}%.2f")</td>
+            </tr>
+            }
+            </tbody>
+            <tfoot>
+            <tr>
+                <th colspan="2">Total juros</th>
+                <th>@(f"$totalJuros%.2f")</th>
+            </tr>
+            </tfoot>
+        </table>
+
+    </div>
 
 }

@@ -1,7 +1,6 @@
 package controllers
 
 import javax.inject._
-import models.JurosCompostos
 import play.api.mvc._
 
 /**
