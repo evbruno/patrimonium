@@ -5,6 +5,9 @@
 
 # An example controller showing a sample home page
 GET     /                           controllers.HomeController.index
+# GET     /juros-compostos            controllers.HomeController.jurosCompostosS
+GET     /juros-compostos            controllers.HomeController.jurosCompostos(juros: Double ?= 0.65, aporte: Double ?= 500, interacoes : Int ?= 12)
+GET     /financiamento-sac          controllers.HomeController.todo
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)
